@@ -9,13 +9,16 @@ import MainMenu from '../contents/MainMenu/MainMenu';
 
 import ContentArea from '../contents/ContentArea/ContentArea';
 
+import RepoList from '../contents/RepoList/RepoList';
+
 export default function Main() {
     return (
         <main className="main">
             <CurrentPath />
             <CurrentInfo />
             <MainMenu />
-            <ContentArea />
+            <RepoList />
+            {/*<ContentArea />*/}
         </main>
     );
 }
