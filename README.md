@@ -1,5 +1,18 @@
 # git-react-node-app
 
+## Установка
+
+0. необходимо установить пакет **`yarn`**
+
+**инструкция по установке yarn** https://yarnpkg.com/en/docs/install#windows-stable
+
+1. `git clone https://github.com/vlad8zavr/git-react-node-app.git`
+2. `cd ./git-react-node-app.git`
+3. `npm i`
+4. `cd ./client`
+5. `npm i`
+6. `cd ../`
+
 
 ## Запуск
 
@@ -12,3 +25,5 @@
 2. в другой консоли запустить клиент
 
 ## `yarn run client`
+
+после чего откроется окно браузера с запущенным приложением
