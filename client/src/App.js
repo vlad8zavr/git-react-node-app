@@ -65,8 +65,8 @@ class App extends React.Component {
     return (
       <>
         <Header />
-        <Main />
-        <Contents contents={this.state.response} />
+        <Main contents={this.state.response} />
+        {/*<Contents contents={this.state.response} />*/}
         <Footer />
       </>
     );
