@@ -8,16 +8,16 @@ import Footer from './components/Footer/Footer';
 import Main from './components/Main/Main';
 
 
-function Contents({ contents }) {
+// function Contents({ contents }) {
 
-  let list = [];
-  for (let key in contents) {
-    list.push({name: contents[key].name, isdir: contents[key].isdir})
-  }
-  const verstka = list.map(item => <p>{item.name} : ${item.isdir.toString()}</p>)
-  console.log('verstka', verstka)
-  return verstka
-}
+//   let list = [];
+//   for (let key in contents) {
+//     list.push({name: contents[key].name, isdir: contents[key].isdir})
+//   }
+//   const verstka = list.map(item => <p>{item.name} : ${item.isdir.toString()}</p>)
+//   console.log('verstka', verstka)
+//   return verstka
+// }
 
 class App extends React.Component {
 
