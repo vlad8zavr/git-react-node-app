@@ -31,9 +31,12 @@
     &__text {
         overflow: hidden;
 
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
         font-size: 18px;
         line-height: 20px;
         color: var(--text-black);
-        text-overflow: ellipsis;
+        
     }
 }
