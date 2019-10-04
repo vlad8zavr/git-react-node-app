@@ -1,0 +1,9 @@
+
+#root {
+    margin: -8px;
+
+    height: 99vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%;
+}
