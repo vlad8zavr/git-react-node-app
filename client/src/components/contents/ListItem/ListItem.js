@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './ListItem.scss';
 
 const DirSign = () => {
@@ -19,14 +20,16 @@ const FileSign = () => {
 
 export default function ListItem({data, isdir}) {
     console.log('[ListItem]');
-    console.log('data', data);
-    console.log('isdir', isdir);
+    console.log(`data : ${data}, isdir : ${isdir}`);
+    let url = `/api/repos/${data}`;
     return (
-        <div className="repo-list__item list-item">
-            <div className="list-item__icon list-item__icon_dir">
-                { (isdir) ? <DirSign /> : <FileSign /> }                    
+        <NavLink className="Nav__item" to={url}>
+            <div className="repo-list__item list-item">
+                <div className="list-item__icon list-item__icon_dir">
+                    { (isdir) ? <DirSign /> : <FileSign /> }                    
+                </div>
+                <div className="list-item__text">{ data }</div>
             </div>
-            <div className="list-item__text">{ data }</div>
-        </div>
+        </NavLink>
     )
 }

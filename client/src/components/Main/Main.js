@@ -9,7 +9,6 @@ import RepoList from '../contents/RepoList/RepoList';
 
 export default function Main({ contents }) {
     console.log('[MAIN]');
-    console.log('contents', contents);
     console.log('------------------------');
 
     return (
