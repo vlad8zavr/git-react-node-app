@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './ListItem.scss';
 
 const DirSign = () => {
@@ -18,18 +18,47 @@ const FileSign = () => {
     )
 }
 
-export default function ListItem({data, isdir}) {
+function ListItem(props) {
+    let {data, isdir} = props;
     console.log('[ListItem]');
+    //console.log('props.location.pathname', props.location.pathname);
+    //console.log('props.match.path', props.match.path);
     console.log(`data : ${data}, isdir : ${isdir}`);
-    let url = `/api/repos/${data}`;
+
+    console.log('condition 1', isdir && props.match.path === '/api/repos');
+    console.log('condition 2', isdir && props.match.path === '/api/repos/:repositoryId');
+    console.log('condition 3', !!(isdir && (props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)));
+    
+    let url;
+    if (isdir && props.match.path === '/api/repos') {
+        console.log("condition 1 wins");
+        url = `/api/repos/${data}`;
+    }
+    else if (isdir && props.match.path === '/api/repos/:repositoryId') {
+        console.log("condition 2 wins");
+        url = `${props.location.pathname}/tree/master/${data}`;
+    }
+    else if (!!(isdir && (props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1))) {
+        console.log("condition 3 wins");
+        url = `${props.location.pathname}/${data}`;
+    }
+    else url = '/api/repos/client/blob/master/README.md';
+
+    console.log('props.match.path', props.match.path);
+    console.log('url', url);
+    console.log('------------------------------');
+
+    //let url = `/api/repos/${data}`;
     return (
-        <NavLink className="Nav__item" to={url}>
+        <Link className="Nav__item" to={url}>
             <div className="repo-list__item list-item">
-                <div className="list-item__icon list-item__icon_dir">
+                <div className="list-item__icon">
                     { (isdir) ? <DirSign /> : <FileSign /> }                    
                 </div>
                 <div className="list-item__text">{ data }</div>
             </div>
-        </NavLink>
+        </Link>
     )
 }
+
+export default withRouter(ListItem)

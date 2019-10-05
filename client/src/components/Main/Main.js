@@ -8,10 +8,12 @@ import MainMenu from '../contents/MainMenu/MainMenu';
 import RepoList from '../contents/RepoList/RepoList';
 
 export default function Main({ contents }) {
-    console.log('[MAIN]');
-    console.log('------------------------');
+    
+    // console.log('[MAIN]');
+    // console.log('------------------------');
 
     return (
+
         <main className="main">
             <CurrentPath />
             <CurrentInfo />

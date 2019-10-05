@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.scss';
 
@@ -19,7 +19,7 @@ class App extends React.Component {
       <>
         <Switch>
             <Route path="/api/repos" exact component={PageStart} />
-            <Route path="/api/repos/:repositoryId" component={PageCurrentRepo} />
+            <Route path="/api/repos/:repositoryId" exact component={PageCurrentRepo} />
             <Route path="/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?" component={PageCurrentRepo} />
             <Route path="/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)" component={Zaglushka} />
             <Redirect to={"/api/repos"} />

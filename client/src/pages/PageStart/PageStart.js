@@ -21,14 +21,13 @@ export default class PageStart extends React.Component {
     }
   
     callApi = async () => {
-      // don't get how this works but this is a call for /api/repos
-      const response = await fetch('./repos')
-      const body = await response.json()
-      if (response.status !== 200) throw Error(body.message)
-  
-      console.log('body', body)
-      //console.log(JSON.stringify(body));
-      return body
+        const response = await fetch(`${this.props.location.pathname}`)
+        const body = await response.json()
+        if (response.status !== 200) throw Error(body.message)
+    
+        console.log('body', body)
+        //console.log(JSON.stringify(body));
+        return body
     }
   
     handleSubmit = async e => {

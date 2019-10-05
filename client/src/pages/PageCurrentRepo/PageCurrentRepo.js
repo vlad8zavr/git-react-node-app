@@ -9,31 +9,56 @@ export default class PageCurrentRepo extends React.Component {
 
     state = {
         response: '',
-        path: '',
-        post: '',
-        responseToPost: ''
+        currentUrl: ''
+    }
+
+    componentDidUpdate() {
+        console.log('[componentDidUpdate]');
+        // console.log(this.props.location.pathname);
+        // console.log('---------------------------------');
+
+        if (this.state.currentUrl !== this.props.location.pathname) {
+            console.log('about to change state');
+            this.setState({ currentUrl: this.props.location.pathname })
+
+            this.callApi()
+            .then(res => this.setState({ response: res.data }))
+            .catch(err => console.log(err))
+
+        }
     }
 
     componentDidMount() {
-        this.callApi()
-          .then(res => this.setState({ path: res.path, response: res.data }))
-          .catch(err => console.log(err))
+        console.log('[componentDIdMount]');
+        // console.log(this.props.location.pathname);
+        
+        if (this.state.currentUrl !== this.props.location.pathname) {
+            console.log('about to change state');
+            this.setState({ currentUrl: this.props.location.pathname })
+
+            this.callApi()
+                .then(res => this.setState({ response: res.data }))
+                .catch(err => console.log(err))
+        }
+        console.log('---------------------------------');
+
     }
 
     callApi = async () => {
         // don't get how this works but this is a call for /api/repos
-        const response = await fetch(`./${this.props.match.params.repositoryId}`)
+        const response = await fetch(`${this.props.location.pathname}`)
         const body = await response.json()
         if (response.status !== 200) throw Error(body.message)
     
         console.log('body', body)
         //console.log(JSON.stringify(body));
         return body
-      }
+    }
 
     render() {
         console.log('[PageCurrentRepo]');
-        console.log(this.props);
+        // console.log(this.props);
+        // console.log(this.props.location.pathname);
         return (
             <>
             <Header />
