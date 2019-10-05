@@ -15,9 +15,9 @@ export default class PageStart extends React.Component {
     }
   
     componentDidMount() {
-      this.callApi()
-        .then(res => this.setState({ response: res.data }))
-        .catch(err => console.log(err))
+        this.callApi()
+            .then(res => this.setState({ response: res.data }))
+            .catch(err => console.log(err))
     }
   
     callApi = async () => {

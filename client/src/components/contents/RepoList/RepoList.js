@@ -7,9 +7,6 @@ import ListItem from '../ListItem/ListItem';
 export default class RepoList extends React.Component {
 
     handleRepContents = (contents) => {
-        // console.log('[RepoList]');
-        // //console.log(contents);
-        // console.log('----------------------');
         let list = [];
         for (let key in contents) {
             list.push({name: contents[key].name, isdir: contents[key].isdir})

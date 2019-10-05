@@ -20,14 +20,10 @@ const FileSign = () => {
 
 function ListItem(props) {
     let {data, isdir} = props;
-    console.log('[ListItem]');
+    //console.log('[ListItem]');
     //console.log('props.location.pathname', props.location.pathname);
     //console.log('props.match.path', props.match.path);
-    console.log(`data : ${data}, isdir : ${isdir}`);
-
-    console.log('condition 1', isdir && props.match.path === '/api/repos');
-    console.log('condition 2', isdir && props.match.path === '/api/repos/:repositoryId');
-    console.log('condition 3', !!(isdir && (props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)));
+    //console.log(`data : ${data}, isdir : ${isdir}`);
     
     let url;
     if (isdir && props.match.path === '/api/repos') {
@@ -38,17 +34,23 @@ function ListItem(props) {
         console.log("condition 2 wins");
         url = `${props.location.pathname}/tree/master/${data}`;
     }
-    else if (!!(isdir && (props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1))) {
+    else if (isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
         console.log("condition 3 wins");
         url = `${props.location.pathname}/${data}`;
     }
-    else url = '/api/repos/client/blob/master/README.md';
+    else if (!isdir && props.match.path === '/api/repos/:repositoryId') {
+        url = `${props.location.pathname}/blob/master/${data}`;
+    }
+    else if (!isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
+        url = `${props.location.pathname.replace("tree", "blob")}/${data}`
+    }
+    else url = '/api/repos';
 
-    console.log('props.match.path', props.match.path);
-    console.log('url', url);
-    console.log('------------------------------');
+    // console.log('props.match.path', props.match.path);
+    // console.log('props.location.pathname', props.location.pathname);
+    // console.log('url', url);
+    // console.log('------------------------------');
 
-    //let url = `/api/repos/${data}`;
     return (
         <Link className="Nav__item" to={url}>
             <div className="repo-list__item list-item">

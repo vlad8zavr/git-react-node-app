@@ -5,12 +5,8 @@ import './App.scss';
 
 import PageStart from './pages/PageStart/PageStart';
 import PageCurrentRepo from './pages/PageCurrentRepo/PageCurrentRepo';
+import PageFile from './pages/PageFile/PageFile';
 
-const Zaglushka = () => {
-  return (
-    <h1>Zaglushka</h1>
-  )
-}
 
 class App extends React.Component {
 
@@ -21,7 +17,7 @@ class App extends React.Component {
             <Route path="/api/repos" exact component={PageStart} />
             <Route path="/api/repos/:repositoryId" exact component={PageCurrentRepo} />
             <Route path="/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?" component={PageCurrentRepo} />
-            <Route path="/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)" component={Zaglushka} />
+            <Route path="/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)" component={PageFile} />
             <Redirect to={"/api/repos"} />
         </Switch>
       </>

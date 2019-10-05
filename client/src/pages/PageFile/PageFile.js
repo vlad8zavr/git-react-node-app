@@ -5,7 +5,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Main from '../../components/Main/Main';
 
-export default class PageCurrentRepo extends React.Component {
+export default class PageFile extends React.Component {
 
     state = {
         response: '',
@@ -29,13 +29,19 @@ export default class PageCurrentRepo extends React.Component {
     }
 
     componentDidMount() {
+        console.log('[componentDIdMount]');
+        // console.log(this.props.location.pathname);
+        
         if (this.state.currentUrl !== this.props.location.pathname) {
+            console.log('about to change state');
             this.setState({ currentUrl: this.props.location.pathname })
 
             this.callApi()
                 .then(res => this.setState({ response: res.data }))
                 .catch(err => console.log(err))
         }
+        console.log('---------------------------------');
+
     }
 
     callApi = async () => {
@@ -47,6 +53,7 @@ export default class PageCurrentRepo extends React.Component {
         return body;
     }
 
+
     render() {
         return (
             <>
@@ -56,4 +63,5 @@ export default class PageCurrentRepo extends React.Component {
             </>
         )
     }
+
 }
