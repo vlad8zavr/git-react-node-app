@@ -8,17 +8,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Main from './components/Main/Main';
 
-const PageStart = ({contents}) => {
-  return (
-    <>
-        <Header />
-        <Main contents={contents} />
-        <Footer />
-    </>
-  )
-}
-
-class App extends React.Component {
+class PageStart extends React.Component {
 
   state = {
     response: '',
@@ -60,18 +50,32 @@ class App extends React.Component {
   renderNames = () => {
     this.state.response.map(item => <p>{ item.name }</p>)
   }
-
+  
   render() {
     return (
       <>
-        {/*
-          <PageStart contents={this.state.response} />
-        */}
-        
+          <Header />
+          <Main contents={this.state.response} />
+          <Footer />
+      </>
+    )
+  }
+}
+
+const Zaglushka = () => {
+  return (
+    <h1>Zaglushka</h1>
+  )
+}
+
+class App extends React.Component {
+
+  render() {
+    return (
+      <>     
         <Switch>
-            <Route path="/api/repos">
-                <PageStart contents={this.state.response} />
-            </Route>
+            <Route path="/api/repos" exact component={PageStart} />
+            <Route path="/api/repos/:repositoryId/dircontent" component={Zaglushka} />
             <Redirect to={"/api/repos"} />
         </Switch>
       </>
