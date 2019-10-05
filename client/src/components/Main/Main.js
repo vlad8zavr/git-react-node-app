@@ -7,6 +7,7 @@ import CurrentPath from '../contents/CurrentPath/CurrentPath';
 import CurrentInfo from '../contents/CurrentInfo/CurrentInfo';
 import MainMenu from '../contents/MainMenu/MainMenu';
 import RepoList from '../contents/RepoList/RepoList';
+import Redactor from '../contents/Redactor/Redactor';
 
 function Main(props) {
      
@@ -26,7 +27,7 @@ function Main(props) {
             <CurrentInfo />
             <MainMenu />
             { (isFile)
-                ? <p>{contents}</p> 
+                ? <Redactor contents={contents} /> 
                 : <RepoList contents={contents} />
             }
         </main>
