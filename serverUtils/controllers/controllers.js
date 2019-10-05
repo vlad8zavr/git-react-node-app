@@ -24,29 +24,31 @@ exports.showAllRepos = (req, res) => {
     })
 }
 
-exports.showCurrentRepo = (req, res) => {
-    const {repositoryId} = req.params;
-    console.log(`repositoryId : ${repositoryId}`);
+exports.showTree = (req, res) => {
+    const { repositoryId, path: pathParam, commitHash } = req.params;
+    const repoPath = `${global.pathToRep}/${repositoryId}`;
 
-    console.log(`global.pathToRep : ${global.pathToRep}`);
-    console.log(`full path : ${global.pathToRep}/${repositoryId}`);
+    let commit = `${commitHash || 'master'}`;
+    let param = `${pathParam || '.'}`;
 
-    repositoryId && fs.readdir(`${global.pathToRep}/${repositoryId}`, { withFileTypes: true }, (err, out) => {
-        if (err) {
-            console.log(err);
-        }
-        
-        const result = out
-                .filter(item => item.name !== '.git')
-                .map(item => {
-                    return {
-                        "name": item.name, 
-                        "isdir": item.isDirectory()
-                    }
-                })
+    let result = '';
 
-        res.json({ data: result });
-    })
+    let workerProcess = spawn('git', ['ls-tree', '-r', '--name-only', `${commit}`, `${param}`], {cwd: repoPath});
+
+    workerProcess.stdout.on('data', data => {
+        result += data.toString();
+    });
+
+    workerProcess.stderr.on('data', err => {
+        console.log('stderr: ' + err);
+        res.json({ err });
+    });
+
+    workerProcess.on('close', code => {
+        console.log(`Exit with code ${code}`);
+        let arrayOfFiles = parseRepositoryContent(result, param);
+        res.json({ data: arrayOfFiles });
+    });
 }
 
 exports.showBlob = (req, res) => {

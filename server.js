@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { showAllRepos, showCurrentRepo, showBlob } = require('./serverUtils/controllers/controllers');
+const { showAllRepos, showTree, showBlob } = require('./serverUtils/controllers/controllers');
 
 global.pathToRep = process.argv[2];
 
@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/repos', showAllRepos);
 
-app.get('/api/repos/:repositoryId/dircontent', showCurrentRepo);
+app.get('/api/repos/:repositoryId', showTree);
+app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree);
 
 app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob);
 

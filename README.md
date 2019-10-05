@@ -4,8 +4,6 @@ node version 10.15.3
 
 ## Установка
 
-Для сервера нужны пакеты `express` и `fs-extra`
-
 0. необходимо установить пакет **`yarn`** , если он не установлен на устройстве
 
 **инструкция по установке yarn** https://yarnpkg.com/en/docs/install#windows-stable
@@ -19,6 +17,12 @@ node version 10.15.3
 6. `npm i`
 7. `cd ../`
 
+Для сервера нужны пакеты `express` и `fs-extra`
+
+(
+    `npm i express`
+    `npm i fs-extra`
+)
 
 ## Запуск
 
