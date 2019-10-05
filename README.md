@@ -9,7 +9,7 @@
 1. `npm i nodemon -g`
 
 2. `git clone https://github.com/vlad8zavr/git-react-node-app.git`
-3. `cd ./git-react-node-app.git`
+3. `cd ./git-react-node-app`
 4. `npm i`
 5. `cd ./client`
 6. `npm i`
