@@ -1,6 +1,8 @@
 {
   "name": "example-create-react-app-express",
   "version": "1.0.0",
+  "author": "vlad8zavr",
+  "license": "ISC",
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",

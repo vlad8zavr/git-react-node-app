@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.scss';
 
@@ -7,17 +8,15 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Main from './components/Main/Main';
 
-
-// function Contents({ contents }) {
-
-//   let list = [];
-//   for (let key in contents) {
-//     list.push({name: contents[key].name, isdir: contents[key].isdir})
-//   }
-//   const verstka = list.map(item => <p>{item.name} : ${item.isdir.toString()}</p>)
-//   console.log('verstka', verstka)
-//   return verstka
-// }
+const PageStart = ({contents}) => {
+  return (
+    <>
+        <Header />
+        <Main contents={contents} />
+        <Footer />
+    </>
+  )
+}
 
 class App extends React.Component {
 
@@ -34,7 +33,8 @@ class App extends React.Component {
   }
 
   callApi = async () => {
-    const response = await fetch('./api/repos')
+    // don't get how this works but this is a call for /api/repos
+    const response = await fetch('./repos')
     const body = await response.json()
     if (response.status !== 200) throw Error(body.message)
 
@@ -64,10 +64,16 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Header />
-        <Main contents={this.state.response} />
-        {/*<Contents contents={this.state.response} />*/}
-        <Footer />
+        {/*
+          <PageStart contents={this.state.response} />
+        */}
+        
+        <Switch>
+            <Route path="/api/repos">
+                <PageStart contents={this.state.response} />
+            </Route>
+            <Redirect to={"/api/repos"} />
+        </Switch>
       </>
     );
   }
