@@ -47,7 +47,7 @@ exports.showTree = (req, res) => {
     workerProcess.on('close', code => {
         console.log(`Exit with code ${code}`);
         let arrayOfFiles = parseRepositoryContent(result, param);
-        res.json({ data: arrayOfFiles });
+        res.json({ path: param, data: arrayOfFiles });
     });
 }
 
@@ -75,6 +75,6 @@ exports.showBlob = (req, res) => {
 
     workerProcess.on('close', code => {
         console.log(`Exit with code ${code}`);
-        res.send( result );
+        res.json({ pathToFile: pathToFile, data: result });
     });
 }

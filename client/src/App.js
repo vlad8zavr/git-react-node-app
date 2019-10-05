@@ -72,10 +72,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <>     
+      <>
         <Switch>
             <Route path="/api/repos" exact component={PageStart} />
-            <Route path="/api/repos/:repositoryId/dircontent" component={Zaglushka} />
+            <Route path="/api/repos/:repositoryId" component={Zaglushka} />
+            <Route path="/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?" component={Zaglushka} />
+            <Route path="/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)" component={Zaglushka} />
             <Redirect to={"/api/repos"} />
         </Switch>
       </>
