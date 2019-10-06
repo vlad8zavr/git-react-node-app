@@ -8,6 +8,41 @@
     
     &__content {
         flex: 1;
+
+        padding: 12px 0;
+    }
+
+    &__item {
+        position: relative;
+
+        margin-right: 20px;
+
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: bold;
+
+        box-sizing: border-box;
+        border-radius: 2px;
+
+        &:after {
+            content: '/';
+
+            position: absolute;
+            right: 7px;
+            top: 0;
+        }
+
+        &:last-child {
+
+            &:after {
+                content: '';
+            }
+        }
+
+        &:hover {
+            border-bottom: 2px solid var(--text-red);
+        }
+
     }
 
     &__text {

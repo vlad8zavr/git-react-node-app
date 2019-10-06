@@ -1,72 +1,74 @@
 
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './CurrentPath.scss';
 
-function PreviousPath({ line }) {
+
+function CurrentPathItem({ line, path, index }) {
+
+    let modpath;
+    let thispath;
+
+    if (index === 0) thispath = '/api/repos';
+    else if (index === 1) thispath = `/api/repos/${line}`;
+    else if (index > 1) {
+
+        modpath = path.split('/api/repos/')[1].split('/');
+        if (index + 2 < modpath.length) modpath[1] = 'tree';
+        if (index + 2 < modpath.length) {
+            for (let i = 0, length = modpath.length - index - 2; i < length; i++) modpath.pop();
+        }
+
+        thispath = `/api/repos/${modpath.join('/')}`;
+    }
+
     return (
-        <>
-            <span className="current-path__previous">{line}</span>
-            <span className="current-path__divider">/</span>
-        </>
+        <Link className="Nav__item Current-path-Nav" to={thispath}>
+            <span className="current-path__item" data-path={thispath}>
+                {line}
+            </span>
+        </Link>
+        
     )
 }
 
-function PathLine({ path }) {
-    console.log('[PathLine]');
-    console.log('path', path);
-    console.log('---------------------------');
+function PathLine({ path, match }) {
 
     if (path === '/api/repos') {
         return ( 
-            <div className="current-path__text">{ path }</div> 
+            <CurrentPathItem key={0} line={path} path={path} index={0} /> 
         )
     }
     else {
         let pathArray = path.split('/api/repos/')[1].split('/');
 
-        console.log('NOT /api/repos');
-
         if (pathArray.length === 1) {
             return (
-                <div className="current-path__text">
-                    <PreviousPath line="/api/repos" />
-                    { pathArray[0] }
-                </div>
+                <>
+                    <CurrentPathItem key={0} line="/api/repos" path="/api/repos" index={0} />
+                    <CurrentPathItem key={1} line={pathArray[0]} path={path} index={1} />
+                </>
             )
         }
         else if (pathArray.length > 1) {
-            console.log('pathArray.length > 1', pathArray.length > 1);
             let moddedPathArray = pathArray.filter((item, index) => index !== 1);
             moddedPathArray = moddedPathArray.filter((item, index) => index !== 1);
 
-            console.log('moddedPathArray', moddedPathArray);
-
-            // {/* <div className="current-path__text">Other Path</div> */}
-
             return (
-                <div className="current-path__text">
-                    <PreviousPath line="/api/repos" />
-                    { moddedPathArray.map((item, index) => {
-                        if (index !== (moddedPathArray.length - 1))
-                            return <PreviousPath key={index} line={item} />
-                      }) 
-                    }
-                    { moddedPathArray[moddedPathArray.length - 1] }
-                </div>
+                <>
+                    <CurrentPathItem key={0} line="/api/repos" path="/api/repos" index={0} />
+                    { moddedPathArray.map((item, index) => <CurrentPathItem key={index+1} line={item} path={path} index={index+1} />) }
+                </>
             )
         }
     }
 }
 
 function CurrentPath(props) {
-    console.log('[CurrentPath]');
-    if (props.location.pathname !== '/api/repos') console.log(props.location.pathname.split('/api/repos/')[1].split('/'));
-
     return (
         <div className="current-path">
             <div className="current-path__content">
-                <PathLine path={props.location.pathname} />
+                <PathLine path={props.location.pathname} match={props.match.path} />
             </div>
         </div>
     );

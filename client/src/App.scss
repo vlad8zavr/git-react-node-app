@@ -6,6 +6,38 @@
     text-decoration: none;
 }
 
+.Current-path-Nav {
+    position: relative;
+
+    // box-sizing: border-box;
+    // border-radius: 8px;
+
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: bold;
+    color: var(--text-dark-gray);
+
+    &:after {
+        content: '/';
+
+        position: absolute;
+        right: 7px;
+        top: 0;
+    }
+
+    &:last-child {
+        color: var(--text-black);
+
+        &:after {
+            content: '';
+        }
+    }
+
+    // &:hover {
+    //     border-bottom: 3px solid red;
+    // }
+}
+
 
 @media screen and (max-width: 920px) {
     .header__logo {

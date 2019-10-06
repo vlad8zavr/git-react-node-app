@@ -1,12 +1,17 @@
 
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import './CurrentInfo.scss';
 
-export default function CurrentInfo() {
+function CurrentInfo(props) {
+    let lastName = (props.location.pathname === '/api/repos') 
+        ? '/api/repos' 
+        : props.location.pathname.split('/').pop();
+
     return (
         <div className="current-info">
             <div className="current-info__heading">
-                <div className="current-info__name">arcadia</div>
+                <div className="current-info__name">{ lastName }</div>
                 <div className="current-info__menu">trunk</div>
             </div>
             <div className="current-info__text">
@@ -20,3 +25,5 @@ export default function CurrentInfo() {
         </div>
     );
 }
+
+export default withRouter(CurrentInfo);
