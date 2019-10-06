@@ -19,6 +19,22 @@ const outArr = [
     { name: 'verstka-task', isDirectory: () => true }
 ]
 
+const expectedResult = [ 
+    { name: '02-nodejs', isdir: true },
+    { name: 'architecture-redux', isdir: true },
+    { name: 'arhitecture', isdir: true },
+    { name: 'eslint-plugin-lodash-to-native', isdir: true },
+    { name: 'git-react-node-app', isdir: true },
+    { name: 'node-task', isdir: true },
+    { name: 'node_modules', isdir: true },
+    { name: 'package-lock.json', isdir: false },
+    { name: 'package.json', isdir: false },
+    { name: 'promise-polyphill', isdir: true },
+    { name: 'site-analysis', isdir: true },
+    { name: 'site-analysis-local', isdir: true },
+    { name: 'verstka-task', isdir: true } 
+];
+
 describe('showAllRepos', function() {
 
     const testPath = '../';
@@ -76,5 +92,32 @@ describe('showAllRepos', function() {
 
         _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
 
+    })
+
+    it('При заранее известных данных получен ожидаемый результат', function() {
+        const stubFs = {
+            readdir: function(req, res, path, options) {
+                let err = false;
+                testCallback(req, res, err, outArr);
+            }
+        };
+
+        function testCallback(req, res, err, out) {
+        
+            const result = out
+                    .filter(item => item.name !== '.git')
+                    .map(item => {
+                        return {
+                            "name": item.name, 
+                            "isdir": item.isDirectory()
+                        }
+                    })
+                    
+            chai.expect(result).to.eql(expectedResult);
+            //let final = {data: result};
+            //chai.expect(final).to.be.an('object');
+        }
+
+        _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
     })
 });
