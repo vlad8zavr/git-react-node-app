@@ -183,13 +183,8 @@ exports.showTree = (req, res) => {
 }
 
 exports.showBlob = (req, res) => {
-    console.log('[showBlob]');
-    const {repositoryId, commitHash, pathToFile} = req.params;
-    console.log(`repositoryId : ${repositoryId}`);
-    console.log(`commitHash : ${commitHash}`);
-    console.log(`pathToFile : ${pathToFile}`);
 
-    console.log(`modded pathToFile : ${pathToFile.replace(/ /g, '\\ ')}`);
+    const {repositoryId, commitHash, pathToFile} = req.params;
 
     let result = '';
 

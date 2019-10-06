@@ -200,13 +200,13 @@ done
 
 При составлении модульных тестов были созданы следующий блоки:
 
-1. **Контроллеры - обработчики запросов**
+### 1. **Контроллеры - обработчики запросов**
 
 Тестируется работа функций, принимающих данные о репозитории.
 
 Для тестирования этих функций пришлось расширить эти функции.
 
-**Контроллер `showAllRepos` -> `showAllRepos2` (запрос `/api/repos`)**
+### **Контроллер `showAllRepos` -> `showAllRepos2` (запрос `/api/repos`)**
 
 Первоначально функция выглядела следующим образом:
 
@@ -239,6 +239,8 @@ exports.showAllRepos = (req, res) => {
 В процессе расширения была создана функция **`showAllRepos2`** - обертка над **`_showAllRepos2`**.
 
 Последняя используется в тестах в файле `./test/test.js`.
+
+В результате контроллер (`./serverUtils/controllers/controllers.js`) выглядит следующим образом:
 
 ```javascript
 //////////// Interface for tests ///////////
@@ -273,9 +275,200 @@ exports.showAllRepos2 = (req, res) => {
 }
 ```
 
-2. **Парсеры - обработчики принятой информации**
+### **Кoнтроллер `showTree` -> `showTree2` - обертка над `_showTree2`**.
+
+Последняя используется в тестах в файле `./test/test.js`.
+
+Первоначально функция выглядела следующим образом:
+
+```javascript
+exports.showTree = (req, res) => {
+    const { repositoryId, path: pathParam, commitHash } = req.params;
+    const repoPath = `${global.pathToRep}/${repositoryId}`;
+
+    let commit = `${commitHash || 'master'}`;
+    let param = `${pathParam || '.'}`;
+
+    let result = '';
+
+    let workerProcess = spawn('git', ['ls-tree', '-r', '--name-only', `${commit}`, `${param}`], {cwd: repoPath});
+
+    workerProcess.stdout.on('data', data => {
+        result += data.toString();
+    });
+
+    workerProcess.stderr.on('data', err => {
+        console.log('stderr: ' + err);
+        res.json({ err });
+    });
+
+    workerProcess.on('close', code => {
+        console.log(`Exit with code ${code}`);
+
+        let arrayOfFiles = parseRepositoryContent(result, param);
+        res.json({ path: param, data: arrayOfFiles });
+    });
+}
+```
+
+В результате контроллер (`./serverUtils/controllers/controllers.js`) выглядит следующим образом:
+
+```javascript
+_showTree2 = (req, res, thispath, testData, callbackReturn) => {
+
+    const { repositoryId, path: pathParam, commitHash } = req.params;
+
+    const repoPath = (thispath[thispath.length - 1] === '/') 
+        ? `${thispath}${repositoryId}` 
+        : `${thispath}/${repositoryId}`;
+
+    //const repoPath = `${thispath}/${repositoryId}`;
+
+    let commit = `${commitHash || 'master'}`;
+    let param = `${pathParam || '.'}`;
+
+    let result = '';
+
+    if (testData === false) {
+        let workerProcess = spawn('git', ['ls-tree', '-r', '--name-only', `${commit}`, `${param}`], {cwd: repoPath});
+
+        workerProcess.stdout.on('data', data => {
+            result += data.toString();
+        });
+
+        workerProcess.stderr.on('data', err => {
+            console.log('stderr: ' + err);
+            res.json({ err });
+        });
+
+        workerProcess.on('close', code => {
+            console.log(`Exit with code ${code}`);
+
+            let arrayOfFiles = parseRepositoryContent(result, param);
+            res.json({ path: param, data: arrayOfFiles });
+        });
+    }
+    else if (testData || testData === '') {
+        callbackReturn(testData, param);
+    }
+}
+
+exports._showTree2 = _showTree2;
+
+exports.showTree2 = (req, res) => {
+    const testData = false;
+    const thispath= global.pathToRep;
+    callBack = () => 1;
+
+    _showTree2(req, res, thispath, testData, callBack);
+}
+```
+
+### **Кoнтроллер `showBlob` -> `showBlob2` - обертка над `_showBLob2`**.
+
+Последняя используется в тестах в файле `./test/test.js`.
+
+Первоначально функция выглядела следующим образом:
+
+```javascript
+exports.showBlob = (req, res) => {
+
+    const {repositoryId, commitHash, pathToFile} = req.params;
+
+    let result = '';
+
+    let workerProcess = spawn('git', ['show', `${commitHash}:./${pathToFile.replace(/ /g, '\\ ')}`], {cwd: `${global.pathToRep}/${repositoryId}`});
+
+    workerProcess.stdout.on('data', data => {
+        result += data.toString();
+    });
+
+    workerProcess.stderr.on('data', err => {
+        console.log('stderr: ' + err);
+        res.json({ err });
+    });
+
+    workerProcess.on('close', code => {
+        console.log(`Exit with code ${code}`);
+        res.json({ pathToFile: pathToFile, data: result });
+    });
+}
+```
+
+В результате контроллер (`./serverUtils/controllers/controllers.js`) выглядит следующим образом:
+
+```javascript
+_showBlob2 = (req, res, thispath, testData, callbackReturn) => {
+
+    const {repositoryId, commitHash, pathToFile} = req.params;
+
+    let result = '';
+
+    if (testData === false) {
+        let workerProcess = spawn('git', ['show', `${commitHash}:./${pathToFile.replace(/ /g, '\\ ')}`], {cwd: `${global.pathToRep}/${repositoryId}`});
+
+        workerProcess.stdout.on('data', data => {
+            result += data.toString();
+        });
+    
+        workerProcess.stderr.on('data', err => {
+            console.log('stderr: ' + err);
+            res.json({ err });
+        });
+    
+        workerProcess.on('close', code => {
+            console.log(`Exit with code ${code}`);
+
+            res.json({ pathToFile: pathToFile, data: result });
+        });
+    }
+    else if (testData || testData === '') {
+        callbackReturn(testData);
+    }
+}
+
+exports._showBlob2 = _showBlob2;
+
+exports.showBlob2 = (req, res) => {
+    const testData = false;
+    const thispath= global.pathToRep;
+    callBack = () => 1;
+
+    _showBlob2(req, res, thispath, testData, callBack);
+}
+```
+
+
+### 2. **Парсеры - обработчики принятой информации**
 
 Тестируется работа функций, представляющие принятые от контроллеров данные в конкретный вид для дальнейшей передачи на клиент.
 
+Для тестирования парсеров рефакторинг и расширения не требовались.
+
 ## Возможные действия если что-то пошло не так
 
+Если вдруг установка и запуск были выполнены по инструкции, но во время работы приложения происходят ошибки, можно попробовать в файле **`server.js`** закомментировать следующие строки:
+
+```javascript
+// ---------- modded for tests controllers --------------------
+
+app.get('/api/repos', showAllRepos2);
+app.get('/api/repos/:repositoryId', showTree2);
+app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree2);
+app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob2);
+
+// ------------------------------------------------------------
+```
+
+и раскомментировать ниже лежащие:
+
+```javascript
+// ---------- original controllers functions ------------------
+
+//app.get('/api/repos', showAllRepos);
+//app.get('/api/repos/:repositoryId', showTree);
+//app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree);
+// app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob);
+
+// ------------------------------------------------------------
+```
