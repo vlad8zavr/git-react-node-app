@@ -17,6 +17,7 @@
     "mocha": "^6.2.1"
   },
   "devDependencies": {
-    "concurrently": "^4.0.1"
+    "concurrently": "^4.0.1",
+    "selenium-standalone": "^6.16.0"
   }
 }
