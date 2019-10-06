@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { showAllRepos, showTree, showBlob, showAllRepos2, showTree2 } = require('./serverUtils/controllers/controllers');
+const { showAllRepos, showTree, showBlob, showAllRepos2, showTree2, showBlob2 } = require('./serverUtils/controllers/controllers');
 
 global.pathToRep = process.argv[2];
 
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/api/repos', showAllRepos2);
 app.get('/api/repos/:repositoryId', showTree2);
 app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree2);
-
+app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob2);
 
 // ------------------------------------------------------------
 
@@ -27,8 +27,7 @@ app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree2);
 //app.get('/api/repos', showAllRepos);
 //app.get('/api/repos/:repositoryId', showTree);
 //app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree);
-app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob);
-
+// app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob);
 
 // ------------------------------------------------------------
 

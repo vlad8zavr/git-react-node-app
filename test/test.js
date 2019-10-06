@@ -2,11 +2,12 @@
 const { assert } = require('assert');
 var chai = require('chai');
 
-const { _showAllRepos2, _showTree2 } = require('../serverUtils/controllers/controllers');
+const { _showAllRepos2, _showTree2, _showBlob2 } = require('../serverUtils/controllers/controllers');
 const { parseCommitList, parseRepositoryContent, getPathFromUrl, getPathDeleteMethod } = require('../serverUtils/parseResponse/parseResponse');
 
 const { allReposOutArr, allReposExpectedResult } = require('./showAllReposData/showAllReposData');
 const { showTreeData, showTreeDataExpected, showTreeDataClient, showTreeDataClientExpected } = require('./showTreeData/showTreeData');
+const { showBlobData } = require('./showBlobData/showBlobData');
 
 const testPath = '../';
 
@@ -163,6 +164,61 @@ describe('Контроллеры - обработчики запросов', () 
     
             _showTree2(req, null, testPath, showTreeDataClient, callbackReturn);
         })
+    })
+
+    describe('Запрос /api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*) - showBlob', () => {
+        
+        it('При входных данных представленных в виде строки - на выходе строка', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app',
+                    pathToFile: 'package.json',
+                    commitHash: 'master'
+                }
+            };
+    
+            const callbackReturn = (testData) => {
+
+                chai.expect(testData).to.be.a('string');
+            }
+
+            _showBlob2(req, null, testPath, showBlobData, callbackReturn);
+        })
+
+        it('При входных данных представленных в виде пустой строки - на выходе пустая строка', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app',
+                    pathToFile: 'package.json',
+                    commitHash: 'master'
+                }
+            };
+    
+            const callbackReturn = (testData) => {
+
+                chai.expect(testData).to.be.empty;
+            }
+
+            _showBlob2(req, null, testPath, '', callbackReturn);
+        })
+
+        it('При заранее известных входных данных получен ожидаемый результат', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app',
+                    pathToFile: 'package.json',
+                    commitHash: 'master'
+                }
+            };
+    
+            const callbackReturn = (testData) => {
+
+                chai.expect(testData).to.equal(showBlobData);
+            }
+
+            _showBlob2(req, null, testPath, showBlobData, callbackReturn);
+        })
+
     })
 })
 
