@@ -11,6 +11,8 @@ callbackShowAllRepos = (req, res, err, out) => {
         console.log(err);
     }
 
+    console.log('out', out);
+
     const result = out
             .filter(item => item.name !== '.git')
             .map(item => {

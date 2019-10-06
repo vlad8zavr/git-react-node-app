@@ -20,10 +20,11 @@ const outArr = [
 ]
 
 describe('showAllRepos', function() {
-    it('Должен возвращать объект при входных данных - содержание репозитория', function() {
-      
-        const testPath = '../';
-        const testOptions = { withFileTypes: true };
+
+    const testPath = '../';
+    const testOptions = { withFileTypes: true };
+
+    it('При входных данных представленных в виде массива - на выходе объект', function() {
 
         const stubFs = {
             readdir: function(req, res, path, options) {
@@ -49,4 +50,31 @@ describe('showAllRepos', function() {
 
         _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
     });
+
+    it('При входных данных представленных в виде пустого массива - на выходе в объекте пустой массив', function() {
+
+        const stubFs = {
+            readdir: function(req, res, path, options) {
+                let err = false;
+                testCallback(req, res, err, []);
+            }
+        };
+
+        function testCallback(req, res, err, out) {
+        
+            const result = out
+                    .filter(item => item.name !== '.git')
+                    .map(item => {
+                        return {
+                            "name": item.name, 
+                            "isdir": item.isDirectory()
+                        }
+                    })
+                    
+            chai.expect(result).to.be.empty;
+        }
+
+        _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
+
+    })
 });
