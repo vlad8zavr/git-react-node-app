@@ -45,6 +45,8 @@
 
 ### `yarn run server <path to repo>`
 
+(Например, `yarn run server ../`)
+
 2. в другой консоли запустить клиент
 
 ### `yarn run client`
