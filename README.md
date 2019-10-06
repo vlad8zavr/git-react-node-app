@@ -60,6 +60,19 @@ http://localhost:3000/api/repos
 
 Код клиента находится в папке `./client`
 
+**./git-react-client-app**
+    |
+    --server.js
+    |
+    --serverUtils/
+        |
+        --controllers/
+        |   |
+        |   --controllers.js
+        |
+        parseResponse/
+            |
+            --parseResponse.js
 
 ## Почему не реализовано отображение дополнительной информации
 
