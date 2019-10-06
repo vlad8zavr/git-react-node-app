@@ -6,7 +6,7 @@ const { _showAllRepos2 } = require('../serverUtils/controllers/controllers');
 const { parseCommitList, parseRepositoryContent, getPathFromUrl, getPathDeleteMethod } = require('../serverUtils/parseResponse/parseResponse');
 
 const { allReposOutArr, allReposExpectedResult } = require('./showAllReposData/showAllReposData');
-const { showTreeData, showTreeDataExpected } = require('./showTreeData/showTreeData');
+const { showTreeData, showTreeDataExpected, showTreeDataClient, showTreeDataClientExpected } = require('./showTreeData/showTreeData');
 
 
 describe('Контроллеры - обработчики запросов', () => {
@@ -115,10 +115,16 @@ describe('Парсеры - обработчики принятой информ�
             chai.expect(arrayOfFiles).to.be.empty;
         })
 
-        it('При заранее известных данных получен ожидаемый результат', () => {
+        it('При заранее известных данных получен ожидаемый результат (param = .)', () => {
             const param = '.';
             let arrayOfFiles = parseRepositoryContent(showTreeData, param);
             chai.expect(arrayOfFiles).to.eql(showTreeDataExpected);
+        })
+
+        it('При заранее известных данных получен ожидаемый результат (param = client)', () => {
+            const param = 'client';
+            let arrayOfFiles = parseRepositoryContent(showTreeDataClient, param);
+            chai.expect(arrayOfFiles).to.eql(showTreeDataClientExpected);
         })
     })
 })
