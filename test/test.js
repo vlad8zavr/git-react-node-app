@@ -1,123 +1,124 @@
 
 const { assert } = require('assert');
-var chai = require('chai')
+var chai = require('chai');
+
 const { _showAllRepos2 } = require('../serverUtils/controllers/controllers');
+const { parseCommitList, parseRepositoryContent, getPathFromUrl, getPathDeleteMethod } = require('../serverUtils/parseResponse/parseResponse');
 
-const outArr = [
-    { name: '02-nodejs', isDirectory: () => true },
-    { name: 'architecture-redux', isDirectory: () => true },
-    { name: 'arhitecture', isDirectory: () => true },
-    { name: 'eslint-plugin-lodash-to-native', isDirectory: () => true },
-    { name: 'git-react-node-app', isDirectory: () => true },
-    { name: 'node-task', isDirectory: () => true },
-    { name: 'node_modules', isDirectory: () => true },
-    { name: 'package-lock.json', isDirectory: () => false },
-    { name: 'package.json', isDirectory: () => false },
-    { name: 'promise-polyphill', isDirectory: () => true },
-    { name: 'site-analysis', isDirectory: () => true },
-    { name: 'site-analysis-local', isDirectory: () => true },
-    { name: 'verstka-task', isDirectory: () => true }
-]
+const { allReposOutArr, allReposExpectedResult } = require('./showAllReposData/showAllReposData');
+const { showTreeData, showTreeDataExpected } = require('./showTreeData/showTreeData');
 
-const expectedResult = [ 
-    { name: '02-nodejs', isdir: true },
-    { name: 'architecture-redux', isdir: true },
-    { name: 'arhitecture', isdir: true },
-    { name: 'eslint-plugin-lodash-to-native', isdir: true },
-    { name: 'git-react-node-app', isdir: true },
-    { name: 'node-task', isdir: true },
-    { name: 'node_modules', isdir: true },
-    { name: 'package-lock.json', isdir: false },
-    { name: 'package.json', isdir: false },
-    { name: 'promise-polyphill', isdir: true },
-    { name: 'site-analysis', isdir: true },
-    { name: 'site-analysis-local', isdir: true },
-    { name: 'verstka-task', isdir: true } 
-];
 
-describe('showAllRepos', function() {
+describe('Контроллеры - обработчики запросов', () => {
+    describe('Запрос /api/repos - showAllRepos', () => {
 
-    const testPath = '../';
-    const testOptions = { withFileTypes: true };
-
-    it('При входных данных представленных в виде массива - на выходе объект', function() {
-
-        const stubFs = {
-            readdir: function(req, res, path, options) {
-                let err = false;
-                testCallback(req, res, err, outArr);
+        const testPath = '../';
+        const testOptions = { withFileTypes: true };
+    
+        it('При входных данных представленных в виде массива - на выходе объект', () => {
+    
+            const stubFs = {
+                readdir: function(req, res, path, options) {
+                    let err = false;
+                    testCallback(req, res, err, allReposOutArr);
+                }
+            };
+    
+            function testCallback(req, res, err, out) {
+            
+                const result = out
+                        .filter(item => item.name !== '.git')
+                        .map(item => {
+                            return {
+                                "name": item.name, 
+                                "isdir": item.isDirectory()
+                            }
+                        })
+                        
+                let final = {data: result};
+                chai.expect(final).to.be.an('object');
             }
-        };
-
-        function testCallback(req, res, err, out) {
-        
-            const result = out
-                    .filter(item => item.name !== '.git')
-                    .map(item => {
-                        return {
-                            "name": item.name, 
-                            "isdir": item.isDirectory()
-                        }
-                    })
-                    
-            let final = {data: result};
-            chai.expect(final).to.be.an('object');
-        }
-
-        _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
+    
+            _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
+        });
+    
+        it('При входных данных представленных в виде пустого массива - на выходе в объекте пустой массив', () => {
+    
+            const stubFs = {
+                readdir: function(req, res, path, options) {
+                    let err = false;
+                    testCallback(req, res, err, []);
+                }
+            };
+    
+            function testCallback(req, res, err, out) {
+            
+                const result = out
+                        .filter(item => item.name !== '.git')
+                        .map(item => {
+                            return {
+                                "name": item.name, 
+                                "isdir": item.isDirectory()
+                            }
+                        })
+                        
+                chai.expect(result).to.be.empty;
+            }
+    
+            _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
+    
+        })
+    
+        it('При заранее известных данных получен ожидаемый результат', () => {
+            const stubFs = {
+                readdir: function(req, res, path, options) {
+                    let err = false;
+                    testCallback(req, res, err, allReposOutArr);
+                }
+            };
+    
+            function testCallback(req, res, err, out) {
+            
+                const result = out
+                        .filter(item => item.name !== '.git')
+                        .map(item => {
+                            return {
+                                "name": item.name, 
+                                "isdir": item.isDirectory()
+                            }
+                        })
+                        
+                chai.expect(result).to.eql(allReposExpectedResult);
+            }
+    
+            _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
+        })
     });
+})
 
-    it('При входных данных представленных в виде пустого массива - на выходе в объекте пустой массив', function() {
+describe('Парсеры - обработчики принятой информации', () => {
+    describe('Обработка содержимого репозитория (tree)', () => {
 
-        const stubFs = {
-            readdir: function(req, res, path, options) {
-                let err = false;
-                testCallback(req, res, err, []);
-            }
-        };
+        it('При входных данных в виде строки - на выходе массив', () => {
 
-        function testCallback(req, res, err, out) {
-        
-            const result = out
-                    .filter(item => item.name !== '.git')
-                    .map(item => {
-                        return {
-                            "name": item.name, 
-                            "isdir": item.isDirectory()
-                        }
-                    })
-                    
-            chai.expect(result).to.be.empty;
-        }
+            const param = '.';
+            let arrayOfFiles = parseRepositoryContent(showTreeData, param);
+            chai.expect(arrayOfFiles).to.be.an('array');
+        })
 
-        _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
+        it('При входной пустой строке - на выходе пустой массив', () => {
 
+            const result = '';
+            const param = '.';
+
+            let arrayOfFiles = parseRepositoryContent(result, param);
+            chai.expect(arrayOfFiles).to.be.empty;
+        })
+
+        it('При заранее известных данных получен ожидаемый результат', () => {
+            const param = '.';
+            let arrayOfFiles = parseRepositoryContent(showTreeData, param);
+            chai.expect(arrayOfFiles).to.eql(showTreeDataExpected);
+        })
     })
-
-    it('При заранее известных данных получен ожидаемый результат', function() {
-        const stubFs = {
-            readdir: function(req, res, path, options) {
-                let err = false;
-                testCallback(req, res, err, outArr);
-            }
-        };
-
-        function testCallback(req, res, err, out) {
-        
-            const result = out
-                    .filter(item => item.name !== '.git')
-                    .map(item => {
-                        return {
-                            "name": item.name, 
-                            "isdir": item.isDirectory()
-                        }
-                    })
-                    
-            chai.expect(result).to.eql(expectedResult);
-            //let final = {data: result};
-            //chai.expect(final).to.be.an('object');
-        }
-
-        _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
-    })
-});
+})

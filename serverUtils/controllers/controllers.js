@@ -11,8 +11,6 @@ callbackShowAllRepos = (req, res, err, out) => {
         console.log(err);
     }
 
-    console.log('out', out);
-
     const result = out
             .filter(item => item.name !== '.git')
             .map(item => {
@@ -86,6 +84,11 @@ exports.showTree = (req, res) => {
 
     workerProcess.on('close', code => {
         console.log(`Exit with code ${code}`);
+
+        console.log('result\n', result);
+        console.log('-------------------');
+        console.log('typeof result', typeof result);
+
         let arrayOfFiles = parseRepositoryContent(result, param);
         res.json({ path: param, data: arrayOfFiles });
     });

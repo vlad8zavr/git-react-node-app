@@ -28,30 +28,33 @@ module.exports = {
             };
         })
 
-        let newArray = [];
-        newArray.push(arrayOfFiles[0]);
-        for (let i = 1, length = arrayOfFiles.length; i < length; i++) {
-            newArray.push(arrayOfFiles[i]);
-            let currentItem, previousItem;
-            if (arrayOfFiles[i].match(divider) && arrayOfFiles[i-1].match(divider)) {
-                currentItem = arrayOfFiles[i].split(divider)[0];
-                previousItem = arrayOfFiles[i-1].split(divider)[0];
-                if (currentItem === previousItem) {
-                    newArray.pop();
+        if (arrayOfFiles.length > 0) {
+            let newArray = [];
+            newArray.push(arrayOfFiles[0]);
+            for (let i = 1, length = arrayOfFiles.length; i < length; i++) {
+                newArray.push(arrayOfFiles[i]);
+                let currentItem, previousItem;
+                if (arrayOfFiles[i].match(divider) && arrayOfFiles[i-1].match(divider)) {
+                    currentItem = arrayOfFiles[i].split(divider)[0];
+                    previousItem = arrayOfFiles[i-1].split(divider)[0];
+                    if (currentItem === previousItem) {
+                        newArray.pop();
+                    }
                 }
             }
+
+            let result = newArray.map(item => {
+                isdir = !!item.match(divider);
+                temp = (isdir) ? item.split(divider)[0] : item;
+                return {
+                    "name": temp, 
+                    "isdir": isdir
+                }
+            })
+
+            return result;
         }
-
-        let result = newArray.map(item => {
-            isdir = !!item.match(divider);
-            temp = (isdir) ? item.split(divider)[0] : item;
-            return {
-                "name": temp, 
-                "isdir": isdir
-            }
-        })
-
-        return result;
+        else return arrayOfFiles;
     },
 
     getPathFromUrl: function(req, repositoryId, commitHash, variant) {

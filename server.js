@@ -11,12 +11,24 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// ---------- modded for tests controllers --------------------
+
 app.get('/api/repos', showAllRepos2);
+
+
+// ------------------------------------------------------------
+
+
+
+// ---------- original controllers functions ------------------
 
 //app.get('/api/repos', showAllRepos);
 app.get('/api/repos/:repositoryId', showTree);
 app.get('/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?', showTree);
 app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob);
+
+
+// ------------------------------------------------------------
 
 
 app.post('/api/world', (req, res) => {
