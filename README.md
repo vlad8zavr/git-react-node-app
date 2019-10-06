@@ -60,6 +60,7 @@ http://localhost:3000/api/repos
 
 Код клиента находится в папке `./client`
 
+**Сервер**
 ```
 ./git-react-client-app
     |
@@ -67,13 +68,40 @@ http://localhost:3000/api/repos
     |
     --serverUtils/
         |
-        --controllers/
-        |   |
-        |   --controllers.js
+        --controllers/controllers.js
         |
-        parseResponse/
+        parseResponse/parseResponse.js
+```
+
+**Клиент**
+```
+./git-react-client-app
+    |
+    --client/
+        |
+        --src/
             |
-            --parseResponse.js
+            --App.js
+            |
+            --pages/
+            |   |
+            |   --PageStart/PageStart.js
+            |   |
+            |   --PageCurrentRepo/PageCurrentRepo.js
+            |   |
+            |   --PageFile/PageFile.js
+            |
+            --assets
+            |   |
+            |   --assets.scss
+            |   |
+            |   --color/color.scss
+            |   |
+            |   --font/font.scss
+            |   |
+            |   --reused/reused.scss
+            |
+            --components/
 ```
 
 ## Почему не реализовано отображение дополнительной информации
