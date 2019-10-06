@@ -4,13 +4,68 @@ const path = require('path');
 const { spawn } = require('child_process');
 const { parseCommitList, parseRepositoryContent, getPathFromUrl, getPathDeleteMethod } = require('../parseResponse/parseResponse');
 
+// Interface for tests
+
+////////////////////////////////////////////
+
+function findFile(path, options, callback) {
+    _findFile(fs, path, options, callback);
+}
+  
+function _findFile(req, res, fs, path, options, callback) {
+    fs.readdir(path, options, function(err, files) {
+       //Do something.
+    });
+}
+
+var stubFs = {
+    readdir: function(req, res, path, options, callback) {
+       callback(req, res, err, out);
+    }
+};
+  
+//_findFile(req, res, stubFs, testPath, testOptions, testCallback);
+
+/////////////////////////////////////
+
+callbackShowAllRepos = (req, res, err, out) => {
+    console.log('[callbackShowAllRepos]');
+    if (err) {
+        console.log(err);
+    }
+
+    const result = out
+            .filter(item => item.name !== '.git')
+            .map(item => {
+                return {
+                    "name": item.name, 
+                    "isdir": item.isDirectory()
+                }
+            })
+
+    console.log('result', result);
+    res.json({ data: result })
+}
+
+_showAllRepos2 = (req, res, system, path, options, callback) => {
+    path && system.readdir(path, options, (err, out) => {
+        callback(req, res, err, out);
+    })
+}
+
+exports._showAllRepos2;
+
+exports.showAllRepos2 = (req, res) => {
+    _showAllRepos2(req, res, fs, global.pathToRep, { withFileTypes: true }, callbackShowAllRepos);
+}
+
 
 exports.showAllRepos = (req, res) => {
     global.pathToRep && fs.readdir(global.pathToRep, { withFileTypes: true }, (err, out) => {
         if (err) {
             console.log(err);
         }
-        
+
         const result = out
                 .filter(item => item.name !== '.git')
                 .map(item => {
@@ -20,7 +75,12 @@ exports.showAllRepos = (req, res) => {
                     }
                 })
 
-        res.json({ data: result });
+        if (!global.isAppTesting) {
+            res.json({ data: result })
+        }
+        else {
+            return {data: result};
+        }
     })
 }
 
