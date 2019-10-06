@@ -14,12 +14,6 @@ function Main(props) {
     let { contents } = props;
     let isFile = !!(props.match.path.indexOf('/api/repos/:repositoryId/blob/:commitHash/:pathToFile') + 1);
 
-    console.log('[MAIN]');
-    console.log(props);
-    console.log('props.match.path', props.match.path);
-    console.log('isFile', isFile);
-    console.log('------------------------');
-
     return (
         
         <main className="main">

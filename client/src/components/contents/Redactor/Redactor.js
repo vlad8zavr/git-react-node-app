@@ -12,11 +12,9 @@ class Redactor extends React.Component {
     }
 
     render() {
-        console.log('[REDACTOR]');
         let filename = this.props.location.pathname.split('/').pop();
         return (
             <div className="redactor">
-                {/* <div>{ this.props.contents }</div> */}
                 <RedactorHead name={filename} />
                 <RedactorBody contents={this.props.contents} />
             </div>

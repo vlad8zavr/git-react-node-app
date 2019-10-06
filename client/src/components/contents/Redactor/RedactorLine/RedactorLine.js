@@ -1,9 +1,9 @@
 import React from 'react';
 
 export default function RedactorLine({ data, number }) {
-    console.log('[RedactorLine]');
-    console.log(data);
-    console.log('-----------------------');
+    // console.log('[RedactorLine]');
+    // console.log(data);
+    // console.log('-----------------------');
     return (
         <div className="redactor__line">
             <div className="redactor__line-order">

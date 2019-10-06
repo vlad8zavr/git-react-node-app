@@ -20,22 +20,15 @@ const FileSign = () => {
 
 function ListItem(props) {
     let {data, isdir} = props;
-    //console.log('[ListItem]');
-    //console.log('props.location.pathname', props.location.pathname);
-    //console.log('props.match.path', props.match.path);
-    //console.log(`data : ${data}, isdir : ${isdir}`);
     
     let url;
     if (isdir && props.match.path === '/api/repos') {
-        console.log("condition 1 wins");
         url = `/api/repos/${data}`;
     }
     else if (isdir && props.match.path === '/api/repos/:repositoryId') {
-        console.log("condition 2 wins");
         url = `${props.location.pathname}/tree/master/${data}`;
     }
     else if (isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
-        console.log("condition 3 wins");
         url = `${props.location.pathname}/${data}`;
     }
     else if (!isdir && props.match.path === '/api/repos/:repositoryId') {
@@ -45,11 +38,6 @@ function ListItem(props) {
         url = `${props.location.pathname.replace("tree", "blob")}/${data}`
     }
     else url = '/api/repos';
-
-    // console.log('props.match.path', props.match.path);
-    // console.log('props.location.pathname', props.location.pathname);
-    // console.log('url', url);
-    // console.log('------------------------------');
 
     return (
         <Link className="Nav__item" to={url}>

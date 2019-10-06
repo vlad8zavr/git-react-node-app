@@ -13,12 +13,8 @@ export default class PageCurrentRepo extends React.Component {
     }
 
     componentDidUpdate() {
-        console.log('[componentDidUpdate]');
-        // console.log(this.props.location.pathname);
-        // console.log('---------------------------------');
 
         if (this.state.currentUrl !== this.props.location.pathname) {
-            console.log('about to change state');
             this.setState({ currentUrl: this.props.location.pathname })
 
             this.callApi()
@@ -42,8 +38,7 @@ export default class PageCurrentRepo extends React.Component {
         const response = await fetch(`${this.props.location.pathname}`)
         const body = await response.json()
         if (response.status !== 200) throw Error(body.message)
-    
-        console.log('body', body);
+
         return body;
     }
 
