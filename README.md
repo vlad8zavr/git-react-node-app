@@ -8,7 +8,6 @@ node version 10.15.3
 2. **lazy loading для файлов (+ спиннер)**
 3. **Подсветка синтаксиса для файлов ??? (разбор по словам строки в компоненте RedactorLine)**
 4. **Размер файла ??? в компоненте RedactorHead**
-5. **Дерево структуры (иерархии) : App -> pages -> components -> contents с кратким описанием каждого компонента**
 
 ## Установка
 
@@ -25,7 +24,7 @@ node version 10.15.3
 6. `npm i`
 7. `cd ../`
 
-Для сервера нужны пакеты `express` и `fs-extra`
+8. Для сервера нужны пакеты `express` и `fs-extra`
 
 (
     `npm i express`
@@ -70,7 +69,7 @@ http://localhost:3000/api/repos
         |
         --controllers/controllers.js
         |
-        parseResponse/parseResponse.js
+        --parseResponse/parseResponse.js
 ```
 
 **Клиент**
@@ -102,6 +101,39 @@ http://localhost:3000/api/repos
             |   --reused/reused.scss
             |
             --components/
+```
+
+**components**
+```
+components/
+    |
+    --Header/Header.js
+    |
+    --Footer/Footer.js
+    |
+    --Main/Main.js
+    |
+    --contents/
+        |
+        --CurrentPath/CurrentPath.js
+        |
+        --CurrentInfo/CurrentInfo.js
+        |
+        --MainMenu/MainMenu.js
+        |
+        --RepoList/RepoList.js
+        |
+        --ListItem/ListItem.js
+        |
+        --Redactor/
+            |
+            --Redactor.js
+            |
+            --RedactorHead/RedactorHead.js
+            |
+            --RedactorBody/RedactorBody.js
+            |
+            --RedactorLine/RedactorLine.js
 ```
 
 ## Почему не реализовано отображение дополнительной информации
