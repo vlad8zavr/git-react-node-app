@@ -2,17 +2,17 @@
 const { assert } = require('assert');
 var chai = require('chai');
 
-const { _showAllRepos2 } = require('../serverUtils/controllers/controllers');
+const { _showAllRepos2, _showTree2 } = require('../serverUtils/controllers/controllers');
 const { parseCommitList, parseRepositoryContent, getPathFromUrl, getPathDeleteMethod } = require('../serverUtils/parseResponse/parseResponse');
 
 const { allReposOutArr, allReposExpectedResult } = require('./showAllReposData/showAllReposData');
 const { showTreeData, showTreeDataExpected, showTreeDataClient, showTreeDataClientExpected } = require('./showTreeData/showTreeData');
 
+const testPath = '../';
 
 describe('Контроллеры - обработчики запросов', () => {
     describe('Запрос /api/repos - showAllRepos', () => {
 
-        const testPath = '../';
         const testOptions = { withFileTypes: true };
     
         it('При входных данных представленных в виде массива - на выходе объект', () => {
@@ -94,6 +94,76 @@ describe('Контроллеры - обработчики запросов', () 
             _showAllRepos2(null, null, stubFs, testPath, testOptions, testCallback);
         })
     });
+
+    describe('Запросы /api/repos/:repositoryId и /api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)? - showTree', () => {
+
+        it('При входных данных представленных в виде строки - на выходе объект', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app'
+                }
+            };
+    
+            const callbackReturn = (testData, param) => {
+
+                let arrayOfFiles = parseRepositoryContent(testData, param);
+                let final = { path: param, data: arrayOfFiles };
+                chai.expect(final).to.be.an('object');
+            }
+    
+            _showTree2(req, null, testPath, showTreeData, callbackReturn);
+        })
+
+        it('При входных данных представленных в виде пустой строки - на выходе в объекте пустой массив', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app'
+                }
+            };
+    
+            const callbackReturn = (testData, param) => {
+
+                let arrayOfFiles = parseRepositoryContent(testData, param);
+                chai.expect(arrayOfFiles).to.be.empty;
+            }
+    
+            _showTree2(req, null, testPath, '', callbackReturn);
+        })
+
+        it('При заранее известных входных данных получен ожидаемый результат (/api/repos/:repositoryId)', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app'
+                }
+            };
+    
+            const callbackReturn = (testData, param) => {
+
+                let arrayOfFiles = parseRepositoryContent(testData, param);
+                chai.expect(arrayOfFiles).to.eql(showTreeDataExpected);
+            }
+    
+            _showTree2(req, null, testPath, showTreeData, callbackReturn);
+        })
+
+        it('При заранее известных входных данных получен ожидаемый результат (/api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?)', () => {
+            const req = {
+                params: {
+                    repositoryId: 'git-react-node-app',
+                    path: 'client',
+                    commitHash: 'master'
+                }
+            };
+    
+            const callbackReturn = (testData, param) => {
+
+                let arrayOfFiles = parseRepositoryContent(testData, param);
+                chai.expect(arrayOfFiles).to.eql(showTreeDataClientExpected);
+            }
+    
+            _showTree2(req, null, testPath, showTreeDataClient, callbackReturn);
+        })
+    })
 })
 
 describe('Парсеры - обработчики принятой информации', () => {

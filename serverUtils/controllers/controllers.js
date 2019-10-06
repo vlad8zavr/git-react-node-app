@@ -35,6 +35,58 @@ exports.showAllRepos2 = (req, res) => {
     _showAllRepos2(req, res, fs, global.pathToRep, { withFileTypes: true }, callbackShowAllRepos);
 }
 
+// -----------------------------------------
+
+_showTree2 = (req, res, thispath, testData, callbackReturn) => {
+
+    const { repositoryId, path: pathParam, commitHash } = req.params;
+
+    const repoPath = (thispath[thispath.length - 1] === '/') 
+        ? `${thispath}${repositoryId}` 
+        : `${thispath}/${repositoryId}`;
+
+    //const repoPath = `${thispath}/${repositoryId}`;
+
+    let commit = `${commitHash || 'master'}`;
+    let param = `${pathParam || '.'}`;
+
+    let result = '';
+
+    if (testData === false) {
+        let workerProcess = spawn('git', ['ls-tree', '-r', '--name-only', `${commit}`, `${param}`], {cwd: repoPath});
+
+        workerProcess.stdout.on('data', data => {
+            result += data.toString();
+        });
+
+        workerProcess.stderr.on('data', err => {
+            console.log('stderr: ' + err);
+            res.json({ err });
+        });
+
+        workerProcess.on('close', code => {
+            console.log(`Exit with code ${code}`);
+
+            let arrayOfFiles = parseRepositoryContent(result, param);
+            res.json({ path: param, data: arrayOfFiles });
+        });
+    }
+    else if (testData || testData === '') {
+        //let arrayOfFiles = parseRepositoryContent(testData, param);
+        callbackReturn(testData, param);
+    }
+}
+
+exports._showTree2 = _showTree2;
+
+exports.showTree2 = (req, res) => {
+    const testData = false;
+    const thispath= global.pathToRep;
+    callBack = () => 1;
+
+    _showTree2(req, res, thispath, testData, callBack);
+}
+
 ////////////////////////////////////////////
 
 
@@ -84,10 +136,6 @@ exports.showTree = (req, res) => {
 
     workerProcess.on('close', code => {
         console.log(`Exit with code ${code}`);
-
-        console.log('result\n', result);
-        console.log('-------------------');
-        console.log('typeof result', typeof result);
 
         let arrayOfFiles = parseRepositoryContent(result, param);
         res.json({ path: param, data: arrayOfFiles });

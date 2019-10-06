@@ -195,7 +195,76 @@ done
 
 1. **Контроллеры - обработчики запросов**
 
-Тестируется работа функций, принимающих данные о репозиториию.
+Тестируется работа функций, принимающих данные о репозитории.
+
+Для тестирования этих функций пришлось расширить эти функции.
+
+**Контроллер `showAllRepos` -> `showAllRepos2` (запрос `/api/repos`)**
+
+Первоначально функция выглядела следующим образом:
+
+```javascript
+exports.showAllRepos = (req, res) => {
+    global.pathToRep && fs.readdir(global.pathToRep, { withFileTypes: true }, (err, out) => {
+        if (err) {
+            console.log(err);
+        }
+
+        const result = out
+                .filter(item => item.name !== '.git')
+                .map(item => {
+                    return {
+                        "name": item.name, 
+                        "isdir": item.isDirectory()
+                    }
+                })
+
+        if (!global.isAppTesting) {
+            res.json({ data: result })
+        }
+        else {
+            return {data: result};
+        }
+    })
+}
+```
+
+В процессе расширения была создана функция **`showAllRepos2`** - обертка над **`_showAllRepos2`**.
+
+Последняя используется в тестах в файле `./test/test.js`.
+
+```javascript
+//////////// Interface for tests ///////////
+
+callbackShowAllRepos = (req, res, err, out) => {
+    if (err) {
+        console.log(err);
+    }
+
+    const result = out
+            .filter(item => item.name !== '.git')
+            .map(item => {
+                return {
+                    "name": item.name, 
+                    "isdir": item.isDirectory()
+                }
+            })
+
+    res.json({ data: result })
+}
+
+_showAllRepos2 = (req, res, system, path, options, callback) => {
+    path && system.readdir(path, options, (err, out) => {
+        callback(req, res, err, out);
+    })
+}
+
+exports._showAllRepos2 = _showAllRepos2;
+
+exports.showAllRepos2 = (req, res) => {
+    _showAllRepos2(req, res, fs, global.pathToRep, { withFileTypes: true }, callbackShowAllRepos);
+}
+```
 
 2. **Парсеры - обработчики принятой информации**
 
