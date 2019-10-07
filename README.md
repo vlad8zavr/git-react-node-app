@@ -471,6 +471,14 @@ exports.showBlob2 = (req, res) => {
 ### 3. Запуск selenium `selenium-standalone start`
 ### 4. Запуск гермионы `yarn hermione`
 
+
+### Результаты
+
+`(/screenshots/integration-tests.png)`
+
+![integration-tests](/screenshots/integration-tests.png)
+
+
 ## Возможные действия если что-то пошло не так
 
 Если вдруг установка и запуск были выполнены по инструкции, но во время работы приложения происходят ошибки, можно попробовать в файле **`server.js`** закомментировать следующие строки:
