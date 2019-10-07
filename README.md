@@ -448,11 +448,19 @@ exports.showBlob2 = (req, res) => {
 
 ## Интеграционное тестирование
 
-Пока не удалось установить на устройство гермиону.
+Далеко не с первого раза удалось установить гермиону.
 
-Сначала были проблемы с java, затем с python и node-gyp. Последние мне не удалось исправить.
+**Инструкция по установке на windows**
 
-![hermione-error](/screenshots/hermione-error.png)
+1. `npm istrall selenium-standalone --global`
+2. установка java (перезагрузка)
+3. запуск windows powershell от имени администратора
+4. `npm install --global --production windows-build-tools`
+5. переход в дирректорию с проектом
+6. `selenium-standalone install`
+7. `npm install hermione --save-dev`
+
+
 
 ## Возможные действия если что-то пошло не так
 
