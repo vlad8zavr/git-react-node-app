@@ -1,14 +1,40 @@
 const assert = require('assert');
 
-describe('Конвертер валют', () => {
+describe('Страница отображается', () => {
 
-    it('дожден появиться на страницу', function() {
+    it('Страница загружает контент (#root)', function() {
         return this.browser
             .url('/')
-            .keys(['Курс ', 'доллара ','к рублю', '\uE007'])
-            .isExisting('.converter-form')
+            .isExisting('#root')
             .then((exists) => {
-                assert.ok(exists, 'Конвертер валют не появился');
+                assert.ok(exists, '#root не появился');
+            })
+    })
+
+    it('На странице присутствует блок .header', function() {
+        return this.browser
+            .url('/')
+            .isExisting('.header')
+            .then((exists) => {
+                assert.ok(exists, '.header не появился');
+            })
+    })
+
+    it('На странице присутствует блок .main', function() {
+        return this.browser
+            .url('/')
+            .isExisting('.main')
+            .then((exists) => {
+                assert.ok(exists, '.main не появился');
+            })
+    })
+
+    it('На странице присутствует блок .footer', function() {
+        return this.browser
+            .url('/')
+            .isExisting('.footer')
+            .then((exists) => {
+                assert.ok(exists, '.footer не появился');
             })
     })
 })
