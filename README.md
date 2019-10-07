@@ -460,7 +460,14 @@ exports.showBlob2 = (req, res) => {
 6. `selenium-standalone install`
 7. `npm install hermione --save-dev`
 
+**Запуск тестов**
 
+Нужно 4 консоли
+
+### 1. Запуск сервера `yarn run server <path to repo>`
+### 2. Запуск клиента `yarn run client`
+### 3. Запуск selenium `selenium-standalone start`
+### 4. Запуск гермионы `yarn hermione`
 
 ## Возможные действия если что-то пошло не так
 
