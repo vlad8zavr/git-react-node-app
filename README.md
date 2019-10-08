@@ -472,6 +472,7 @@ exports.showBlob2 = (req, res) => {
 ### 4. Запуск гермионы `yarn hermione`
 
 **Код тестов - `./testIntegration/desktop/test.hermione.js`**
+
 **Файл конфигурации - `./.hermione.conf.js`**
 
 ### Результаты
