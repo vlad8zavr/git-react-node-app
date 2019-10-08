@@ -1,9 +1,9 @@
 
 import React from 'react';
 
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import Main from '../../components/Main/Main';
+import Header from '../../components/Header/Header.tsx';
+import Footer from '../../components/Footer/Footer.tsx';
+import Main from '../../components/Main/Main.tsx';
 
 export default class PageCurrentRepo extends React.Component {
 
