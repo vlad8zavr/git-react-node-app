@@ -20,12 +20,16 @@ function RedactorHeadIcon() {
     )
 }
 
-export default function RedactorHead({ name }) {
+interface RedactorHead {
+    name: string | undefined;
+}
+
+export default function RedactorHead(props: RedactorHead) {
     return (
         <div className="redactor__head">
             <div className="redactor__head-text">
                 <RedactorHeadTextIcon />
-                <div className="redactor__head-name">{name}</div>
+                <div className="redactor__head-name">{props.name}</div>
                 <div className="redactor__head-size">(4 347 bytes)</div>
             </div>
             <RedactorHeadIcon />

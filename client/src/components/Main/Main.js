@@ -3,10 +3,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import './Main.scss';
 
-import CurrentPath from '../contents/CurrentPath/CurrentPath';
-import CurrentInfo from '../contents/CurrentInfo/CurrentInfo';
+import CurrentPath from '../contents/CurrentPath/CurrentPath.tsx';
+import CurrentInfo from '../contents/CurrentInfo/CurrentInfo.tsx';
 import MainMenu from '../contents/MainMenu/MainMenu';
-import RepoList from '../contents/RepoList/RepoList';
+import RepoList from '../contents/RepoList/RepoList.tsx';
 import Redactor from '../contents/Redactor/Redactor';
 
 function Main(props) {

@@ -1,14 +1,29 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './Redactor.scss';
+
 
 import RedactorHead from './RedactorHead/RedactorHead';
 import RedactorBody from './RedactorBody/RedactorBody';
 
-class Redactor extends React.Component {
+interface Location {
+    pathname: string;
+}
 
-    countFileBytes(data) {
-        
+interface RedactorProps {
+    location: Location;
+    contents: string;
+}
+
+// These props are provided by the router
+interface PathProps {
+    
+}
+
+class Redactor extends React.Component<RedactorProps & RouteComponentProps<PathProps>> {
+
+    countFileBytes(data: number) {
+        return 100;
     }
 
     render() {
