@@ -1,14 +1,27 @@
 
 import React from 'react';
 
-import Header from '../../components/Header/Header.tsx';
-import Footer from '../../components/Footer/Footer.tsx';
-import Main from '../../components/Main/Main.tsx';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import Main from '../../components/Main/Main';
 
-export default class PageFile extends React.Component {
+interface Location {
+    pathname: string;
+}
+
+interface PageFileProps {
+    location: Location;
+}
+
+interface PageFileState {
+    response: Object;
+    currentUrl: string;
+}
+
+export default class PageFile extends React.Component<PageFileProps, PageFileState> {
 
     state = {
-        response: '',
+        response: {},
         currentUrl: ''
     }
 

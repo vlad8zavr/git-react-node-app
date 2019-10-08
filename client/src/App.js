@@ -3,9 +3,9 @@ import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.scss';
 
-import PageStart from './pages/PageStart/PageStart';
-import PageCurrentRepo from './pages/PageCurrentRepo/PageCurrentRepo';
-import PageFile from './pages/PageFile/PageFile';
+import PageStart from './pages/PageStart/PageStart.tsx';
+import PageCurrentRepo from './pages/PageCurrentRepo/PageCurrentRepo.tsx';
+import PageFile from './pages/PageFile/PageFile.tsx';
 
 
 class App extends React.Component {
