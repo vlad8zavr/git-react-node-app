@@ -462,11 +462,11 @@ exports.showBlob2 = (req, res) => {
 
 **Запуск тестов**
 
-Для интеграционных тестов в проекте специально создана тестовая среда - `./repoTestData`
+Для интеграционных тестов использовалась текущая дирректория `./`
 
 Нужно 4 консоли
 
-### 1. Запуск сервера `yarn run server ./repoTestData`
+### 1. Запуск сервера `yarn run server ./`
 ### 2. Запуск клиента `yarn run client`
 ### 3. Запуск selenium `selenium-standalone start`
 ### 4. Запуск гермионы `yarn hermione`

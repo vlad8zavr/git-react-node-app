@@ -54,7 +54,7 @@ describe('Статика', () => {
 
         it('Страница загружает контент (#root)', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1')
+                .url('http://localhost:3000/api/repos/client')
                 .isExisting('#root')
                 .then((exists) => {
                     assert.ok(exists, '#root не появился');
@@ -63,7 +63,7 @@ describe('Статика', () => {
 
         it('На странице присутствует блок .header', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1')
+                .url('http://localhost:3000/api/repos/client')
                 .isExisting('.header')
                 .then((exists) => {
                     assert.ok(exists, '.header не появился');
@@ -72,7 +72,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .main', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1')
+                .url('http://localhost:3000/api/repos/client')
                 .isExisting('.main')
                 .then((exists) => {
                     assert.ok(exists, '.main не появился');
@@ -81,7 +81,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .footer', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1')
+                .url('http://localhost:3000/api/repos/client')
                 .isExisting('.footer')
                 .then((exists) => {
                     assert.ok(exists, '.footer не появился');
@@ -90,7 +90,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .repo-list__item (ссылки на репозитории)', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1')
+                .url('http://localhost:3000/api/repos/client')
                 .waitForVisible('.repo-list__item')
                 .then((exists) => {
                     assert.ok(exists, 'список репозиториев не появился');
@@ -102,7 +102,7 @@ describe('Статика', () => {
 
         it('Страница загружает контент (#root)', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/tree/master/contents')
+                .url('http://localhost:3000/api/repos/client/tree/master/src')
                 .isExisting('#root')
                 .then((exists) => {
                     assert.ok(exists, '#root не появился');
@@ -111,7 +111,7 @@ describe('Статика', () => {
 
         it('На странице присутствует блок .header', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/tree/master/contents')
+                .url('http://localhost:3000/api/repos/client/tree/master/src')
                 .isExisting('.header')
                 .then((exists) => {
                     assert.ok(exists, '.header не появился');
@@ -120,7 +120,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .main', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/tree/master/contents')
+                .url('http://localhost:3000/api/repos/client/tree/master/src')
                 .isExisting('.main')
                 .then((exists) => {
                     assert.ok(exists, '.main не появился');
@@ -129,7 +129,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .footer', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/tree/master/contents')
+                .url('http://localhost:3000/api/repos/client/tree/master/src')
                 .isExisting('.footer')
                 .then((exists) => {
                     assert.ok(exists, '.footer не появился');
@@ -138,7 +138,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .repo-list__item (ссылки на репозитории)', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/tree/master/contents')
+                .url('http://localhost:3000/api/repos/client/tree/master/src')
                 .waitForVisible('.repo-list__item')
                 .then((exists) => {
                     assert.ok(exists, 'список репозиториев не появился');
@@ -150,7 +150,7 @@ describe('Статика', () => {
 
         it('Страница загружает контент (#root)', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/blob/master/contents/new.css')
+                .url('http://localhost:3000/api/repos/client/blob/master/src/App.js')
                 .isExisting('#root')
                 .then((exists) => {
                     assert.ok(exists, '#root не появился');
@@ -159,7 +159,7 @@ describe('Статика', () => {
 
         it('На странице присутствует блок .header', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/blob/master/contents/new.css')
+                .url('http://localhost:3000/api/repos/client/blob/master/src/App.js')
                 .isExisting('.header')
                 .then((exists) => {
                     assert.ok(exists, '.header не появился');
@@ -168,7 +168,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .main', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/blob/master/contents/new.css')
+                .url('http://localhost:3000/api/repos/client/blob/master/src/App.js')
                 .isExisting('.main')
                 .then((exists) => {
                     assert.ok(exists, '.main не появился');
@@ -177,7 +177,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .footer', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/blob/master/contents/new.css')
+                .url('http://localhost:3000/api/repos/client/blob/master/src/App.js')
                 .isExisting('.footer')
                 .then((exists) => {
                     assert.ok(exists, '.footer не появился');
@@ -186,7 +186,7 @@ describe('Статика', () => {
     
         it('На странице присутствует блок .redactor (содержимое файла)', function() {
             return this.browser
-                .url('http://localhost:3000/api/repos/rep1/blob/master/contents/new.css')
+                .url('http://localhost:3000/api/repos/client/blob/master/src/App.js')
                 .waitForVisible('.redactor')
                 .then((exists) => {
                     assert.ok(exists, 'содержимое файла не появилось');
