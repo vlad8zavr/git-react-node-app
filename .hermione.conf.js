@@ -1,6 +1,5 @@
 module.exports = {
     baseUrl: 'http://localhost:3000/api/repos',
-    //baseUrl: 'https://yandex.ru',
     gridUrl: 'http://localhost:4444/wd/hub',
 
     sets: {
