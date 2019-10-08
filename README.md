@@ -471,6 +471,8 @@ exports.showBlob2 = (req, res) => {
 ### 3. Запуск selenium `selenium-standalone start`
 ### 4. Запуск гермионы `yarn hermione`
 
+**Код тестов - `./testIntegration/desktop/test.hermione.js`**
+**Файл конфигурации - `./.hermione.conf.js`**
 
 ### Результаты
 
