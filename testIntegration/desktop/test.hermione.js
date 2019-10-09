@@ -225,5 +225,16 @@ describe('Динамика', () => {
                 })
         })
 
+        it('Клик на лого - приложение не падает', function() {
+            return this.browser
+                .url('http://localhost:3000/api/repos/client')
+                .isExisting('.Nav__item')
+                .click('.Nav__item')
+                .waitForVisible('#root')
+                .then((exists) => {
+                    assert.ok(exists, 'приложение упало');
+                })
+        })
+
     })
 })
