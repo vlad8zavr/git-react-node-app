@@ -236,5 +236,16 @@ describe('Динамика', () => {
                 })
         })
 
+        it('Клик на навигацию (breadcrumps) - приложение не падает', function() {
+            return this.browser
+                .url('http://localhost:3000/api/repos/client')
+                .isExisting('.Nav__item.Current-path-Nav')
+                .click('.Nav__item.Current-path-Nav')
+                .waitForVisible('#root')
+                .then((exists) => {
+                    assert.ok(exists, 'приложение упало');
+                })
+        })
+
     })
 })
