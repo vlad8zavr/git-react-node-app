@@ -50,7 +50,7 @@ describe('Статика', () => {
         })
     })
 
-    describe('Страница и ее блоки отображаются (запрос /api/repos/:repositoryId) (/api/repos/rep1)', () => {
+    describe('Страница и ее блоки отображаются (запрос /api/repos/:repositoryId) (/api/repos/client)', () => {
 
         it('Страница загружает контент (#root)', function() {
             return this.browser
@@ -98,7 +98,7 @@ describe('Статика', () => {
         })
     })
 
-    describe('Страница и ее блоки отображаются (запрос /api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?) (/api/repos/rep1/tree/master/contents)', () => {
+    describe('Страница и ее блоки отображаются (запрос /api/repos/:repositoryId/tree/:commitHash?/:path([^/]*)?) (/api/repos/client/tree/master/src)', () => {
 
         it('Страница загружает контент (#root)', function() {
             return this.browser
@@ -139,14 +139,21 @@ describe('Статика', () => {
         it('На странице присутствует блок .repo-list__item (ссылки на репозитории)', function() {
             return this.browser
                 .url('http://localhost:3000/api/repos/client/tree/master/src')
-                .waitForVisible('.repo-list__item')
+                .waitUntil(() => {
+                    return this.browser.isExisting('.repo-list__item')
+                })
                 .then((exists) => {
                     assert.ok(exists, 'список репозиториев не появился');
                 })
+                // .isExisting('.repo-list__item')
+                // .then((exists) => {
+                //     assert.ok(exists, 'список репозиториев не появился');
+                // })
+
         })
     })
 
-    describe('Страница и ее блоки отображаются (запрос /api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)) (/api/repos/rep1/blob/master/contents/new.css)', () => {
+    describe('Страница и ее блоки отображаются (запрос /api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)) (/api/repos/client/blob/master/src/App.js)', () => {
 
         it('Страница загружает контент (#root)', function() {
             return this.browser
@@ -215,6 +222,28 @@ describe('Динамика', () => {
                 .waitForVisible('.repo-list__item')
                 .then((exists) => {
                     assert.ok(exists, 'содержимое отсутствует');
+                })
+        })
+
+        it('Клик на лого - приложение не падает', function() {
+            return this.browser
+                .url('http://localhost:3000/api/repos/client')
+                .isExisting('.Nav__item')
+                .click('.Nav__item')
+                .waitForVisible('#root')
+                .then((exists) => {
+                    assert.ok(exists, 'приложение упало');
+                })
+        })
+
+        it('Клик на навигацию (breadcrumps) - приложение не падает', function() {
+            return this.browser
+                .url('http://localhost:3000/api/repos/client')
+                .isExisting('.Nav__item.Current-path-Nav')
+                .click('.Nav__item.Current-path-Nav')
+                .waitForVisible('#root')
+                .then((exists) => {
+                    assert.ok(exists, 'приложение упало');
                 })
         })
 
