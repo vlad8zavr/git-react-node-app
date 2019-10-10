@@ -3,6 +3,13 @@ const bodyParser = require('body-parser');
 
 const { showAllRepos, showTree, showBlob, showAllRepos2, showTree2, showBlob2 } = require('./serverUtils/controllers/controllers');
 
+export interface Global {
+  pathToRep: string;
+}
+
+declare var global: Global;
+
+
 global.pathToRep = process.argv[2];
 
 const app = express();
@@ -31,12 +38,5 @@ app.get('/api/repos/:repositoryId/blob/:commitHash/:pathToFile([^/]*)', showBlob
 
 // ------------------------------------------------------------
 
-
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
-});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
