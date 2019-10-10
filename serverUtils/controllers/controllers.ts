@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 
 // showAllRepos2
 // req - Object
@@ -6,6 +7,8 @@
 // res.send: (body: string) => (return this)
 
 
+=======
+>>>>>>> ca8cbede286699afe332df0b3275391931d7b631
 export interface Global {
     pathToRep: string;
   }
@@ -16,6 +19,7 @@ interface Options {
     withFileTypes: boolean;
 }
 
+<<<<<<< HEAD
 interface ShowAllReposRes {
     json: (object: Object) => Object
 }
@@ -28,6 +32,8 @@ interface ShowAllReposSystem {
     readdir: (path: string, options: Options, callback: SystemCallback) => void;
 }
 
+=======
+>>>>>>> ca8cbede286699afe332df0b3275391931d7b631
 interface ShowAllReposOut {
     name: string;
     isDirectory(): boolean;
@@ -144,7 +150,11 @@ exports.showTree2 = (req: ReqShowTree, res: ShowAllReposRes) => {
 
 // -----------------------------------------
 
+<<<<<<< HEAD
 const _showBlob2 = (req: ReqShowBlob, res: ShowAllReposRes, thispath: string, testData: string | boolean, callbackReturn: (testData: string | boolean) => void) => {
+=======
+const _showBlob2 = (req: ReqShowBlob, res, thispath: string, testData: string | boolean, callbackReturn: (testData: string | boolean) => void) => {
+>>>>>>> ca8cbede286699afe332df0b3275391931d7b631
 
     const {repositoryId, commitHash, pathToFile} = req.params;
 
@@ -175,7 +185,11 @@ const _showBlob2 = (req: ReqShowBlob, res: ShowAllReposRes, thispath: string, te
 
 exports._showBlob2 = _showBlob2;
 
+<<<<<<< HEAD
 exports.showBlob2 = (req: ReqShowBlob, res: ShowAllReposRes) => {
+=======
+exports.showBlob2 = (req: ReqShowBlob, res) => {
+>>>>>>> ca8cbede286699afe332df0b3275391931d7b631
     const testData: boolean = false;
     const thispath: string = global.pathToRep;
     const callBack = () => 1;

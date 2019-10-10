@@ -1,7 +1,11 @@
 
 /** Инструкция для сервера
+<<<<<<< HEAD
  * npm i -g ts-node
  * npm i ts-node 
+=======
+ * npm i -g ts-node 
+>>>>>>> ca8cbede286699afe332df0b3275391931d7b631
  * npm i @types/node 
  * tsc -init 
  */
