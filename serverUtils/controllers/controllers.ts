@@ -21,7 +21,7 @@ interface ShowAllReposRes {
 }
 
 interface SystemCallback {
-    callback: (err: string, out: Array<ShowAllReposOut>) => void
+    callback: (err: Error, out: Array<ShowAllReposOut>) => void
 }
 
 interface ShowAllReposSystem {
@@ -61,7 +61,7 @@ const { parseRepositoryContent } = require('../parseResponse/parseResponse');
 
 //////////// Interface for tests ///////////
 
-const callbackShowAllRepos = (req: Object, res: ShowAllReposRes, err: string, out: Array<ShowAllReposOut>) => {
+const callbackShowAllRepos = (req: Object, res: ShowAllReposRes, err: Error, out: Array<ShowAllReposOut>) => {
     if (err) {
         console.log(err);
     }
@@ -79,7 +79,7 @@ const callbackShowAllRepos = (req: Object, res: ShowAllReposRes, err: string, ou
 }
 
 const _showAllRepos2 = (req: Object, res: ShowAllReposRes, system: any, path: string, options: Options, callback: any) => {
-    path && system.readdir(path, options, (err: string, out: Array<ShowAllReposOut>) => {
+    path && system.readdir(path, options, (err: Error, out: Array<ShowAllReposOut>) => {
         callback(req, res, err, out);
     })
 }
@@ -115,7 +115,7 @@ const _showTree2 = (req: ReqShowTree, res: ShowAllReposRes, thispath: string, te
             result += data.toString();
         });
 
-        workerProcess.stderr.on('data', (err: string) => {
+        workerProcess.stderr.on('data', (err: Error) => {
             console.log('stderr: ' + err);
             res.json({ err });
         });
@@ -157,7 +157,7 @@ const _showBlob2 = (req: ReqShowBlob, res: ShowAllReposRes, thispath: string, te
             result += data.toString();
         });
     
-        workerProcess.stderr.on('data', (err: string) => {
+        workerProcess.stderr.on('data', (err: Error) => {
             console.log('stderr: ' + err);
             res.json({ err });
         });
