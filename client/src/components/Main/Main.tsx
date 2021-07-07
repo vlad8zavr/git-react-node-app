@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './Main.scss';
 
 import CurrentPath from '../contents/CurrentPath/CurrentPath';
@@ -9,7 +9,16 @@ import MainMenu from '../contents/MainMenu/MainMenu';
 import RepoList from '../contents/RepoList/RepoList';
 import Redactor from '../contents/Redactor/Redactor';
 
-function Main(props) {
+interface Match {
+    path: string;
+}
+
+type MainProps = RouteComponentProps<Match> &  {
+    contents: string | Object;
+    match: Match;
+}
+
+function Main(props: MainProps) {
      
     let { contents } = props;
     let isFile = !!(props.match.path.indexOf('/api/repos/:repositoryId/blob/:commitHash/:pathToFile') + 1);
@@ -20,7 +29,7 @@ function Main(props) {
             <CurrentPath />
             <CurrentInfo />
             <MainMenu />
-            { (isFile)
+            { (isFile && typeof contents === 'string')
                 ? <Redactor contents={contents} /> 
                 : <RepoList contents={contents} />
             }

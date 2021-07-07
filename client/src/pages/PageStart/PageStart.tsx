@@ -5,8 +5,19 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Main from '../../components/Main/Main';
 
+interface Location {
+  pathname: string;
+}
 
-export default class PageStart extends React.Component {
+interface PageStartProps {
+  location: Location;
+}
+
+interface PageStartState {
+  response: Object;
+}
+
+export default class PageStart extends React.Component<PageStartProps, PageStartState> {
 
     state = {
       response: ''

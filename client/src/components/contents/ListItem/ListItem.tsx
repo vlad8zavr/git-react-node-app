@@ -1,6 +1,21 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 import './ListItem.scss';
+
+interface ListLocation {
+    pathname: string;
+}
+
+interface ListMatch {
+    path: string;
+}
+
+type ListItemProps = RouteComponentProps<ListLocation & ListMatch> & {
+    data: string;
+    isdir: boolean;
+    location: ListLocation;
+    match: ListMatch;
+}
 
 const DirSign = () => {
     return (
@@ -18,24 +33,23 @@ const FileSign = () => {
     )
 }
 
-function ListItem(props) {
-    let {data, isdir} = props;
+function ListItem(props: ListItemProps) {
     
-    let url;
-    if (isdir && props.match.path === '/api/repos') {
-        url = `/api/repos/${data}`;
+    let url: string;
+    if (props.isdir && props.match.path === '/api/repos') {
+        url = `/api/repos/${props.data}`;
     }
-    else if (isdir && props.match.path === '/api/repos/:repositoryId') {
-        url = `${props.location.pathname}/tree/master/${data}`;
+    else if (props.isdir && props.match.path === '/api/repos/:repositoryId') {
+        url = `${props.location.pathname}/tree/master/${props.data}`;
     }
-    else if (isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
-        url = `${props.location.pathname}/${data}`;
+    else if (props.isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
+        url = `${props.location.pathname}/${props.data}`;
     }
-    else if (!isdir && props.match.path === '/api/repos/:repositoryId') {
-        url = `${props.location.pathname}/blob/master/${data}`;
+    else if (!props.isdir && props.match.path === '/api/repos/:repositoryId') {
+        url = `${props.location.pathname}/blob/master/${props.data}`;
     }
-    else if (!isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
-        url = `${props.location.pathname.replace("tree", "blob")}/${data}`
+    else if (!props.isdir && !!(props.match.path.indexOf('/api/repos/:repositoryId/tree/:commitHash?/:path') + 1)) {
+        url = `${props.location.pathname.replace("tree", "blob")}/${props.data}`
     }
     else url = '/api/repos';
 
@@ -43,9 +57,9 @@ function ListItem(props) {
         <Link className="Nav__item" to={url}>
             <div className="repo-list__item list-item">
                 <div className="list-item__icon">
-                    { (isdir) ? <DirSign /> : <FileSign /> }                    
+                    { (props.isdir) ? <DirSign /> : <FileSign /> }                    
                 </div>
-                <div className="list-item__text">{ data }</div>
+                <div className="list-item__text">{ props.data }</div>
             </div>
         </Link>
     )

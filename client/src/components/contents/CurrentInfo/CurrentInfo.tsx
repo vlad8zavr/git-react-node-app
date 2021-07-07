@@ -3,7 +3,15 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import './CurrentInfo.scss';
 
-function CurrentInfo(props) {
+interface Location {
+    pathname: string;
+}
+
+interface CurrentInfoProps {
+    location: Location;
+}
+
+function CurrentInfo(props: CurrentInfoProps) {
     let lastName = (props.location.pathname === '/api/repos') 
         ? '/api/repos' 
         : props.location.pathname.split('/').pop();
