@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.0.1",
-    "hermione": "^2.12.6",
+    "hermione": "^5.3.1",
     "selenium-standalone": "^6.16.0"
   }
 }
